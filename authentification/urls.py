@@ -5,8 +5,8 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'inscription', viewset=views.UserInscriptionViewSet, basename='userinscription')
-
+router.register(r'', viewset=views.UserManagementViewSet, basename='usermanagement')
 # urlpatterns = [
-    # path('inscription/', UserInscriptionView.as_view()),
+# path('inscription/', UserInscriptionView.as_view()),
 # 
 # ]

@@ -6,11 +6,12 @@ from .models import UserProfile
 class UserInscriptionSerializer(serializers.ModelSerializer):
     # register serializer
     password = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True, label='confirm password')
+    password2 = serializers.CharField(write_only=True, label='Confirm password')
 
     class Meta:
         model = UserProfile
-        fields = ['username',
+        fields = ['id',
+                  'username',
                   'password',
                   'password2',
                   'first_name',
@@ -18,7 +19,8 @@ class UserInscriptionSerializer(serializers.ModelSerializer):
                   'email',
                   'can_be_contacted',
                   'can_data_be_shared',
-                  'age']
+                  'age', ]
+        read_only_fields = ['id']
 
     # at least 15 years old to agree share the datas
     def validate_age(self, value):
@@ -43,3 +45,11 @@ class UserInscriptionSerializer(serializers.ModelSerializer):
             user.set_password(password)
         user.save()
         return user
+
+    # def update(self, instance, validated_data):
+    #     new_password = validated_data.get('password')
+    #     if new_password:
+    #         instance.set_password(new_password)
+    #
+    #     updated_instance = super().update(instance, validated_data)
+    #     return updated_instance

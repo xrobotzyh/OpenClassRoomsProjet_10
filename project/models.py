@@ -73,6 +73,4 @@ class Comment(models.Model):
     description = models.CharField(max_length=2048)
     uuid = models.UUIDField(unique=True)
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-from django.db import models
 
-# Create your models here.
