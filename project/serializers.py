@@ -6,9 +6,6 @@ from .models import Project, Contributor
 
 
 class ContributorSerializer(serializers.ModelSerializer):
-    # user = serializers.StringRelatedField()
-    # project = serializers.PrimaryKeyRelatedField(many=True)
-
     class Meta:
         model = Contributor
         fields = '__all__'
@@ -16,15 +13,10 @@ class ContributorSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     # register serializer
-    contributor = ContributorSerializer(read_only=True)
+    contributor = ContributorSerializer(many=True)
 
     class Meta:
         model = Project
         fields = '__all__'
 
-# class IssueSerializer(serializers.ModelSerializer):
-#     user = serializers.PrimaryKeyRelatedField(queryset=UserProfile.objects.all())
-#
-#     class Meta:
-#         model = Contributor
-#         fields = '__all__'
+

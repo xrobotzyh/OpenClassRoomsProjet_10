@@ -1,7 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from authentification.models import UserProfile
 from .models import Project, Contributor
 from .serializers import ProjectSerializer
 
