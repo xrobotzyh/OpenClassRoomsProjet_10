@@ -1,7 +1,5 @@
-# from rest_framework import serializers
 from rest_framework import serializers
 
-from authentification.models import UserProfile
 from .models import Project, Contributor
 
 
