@@ -39,17 +39,26 @@ class UserInscriptionSerializer(serializers.ModelSerializer):
 
     # re write the create method to encrypt the password
     def create(self, validated_data):
-        password = validated_data.get('password')
+        password = validated_data['password']
         user = self.Meta.model(**validated_data)
-        if password:
-            user.set_password(password)
+        user.set_password(password)
         user.save()
         return user
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id',
+                  'username',
+                  'first_name',
+                  'last_name',
+                  'email',]
+                  # 'password']
+        read_only_fields = ['id']
+
     # def update(self, instance, validated_data):
-    #     new_password = validated_data.get('password')
-    #     if new_password:
-    #         instance.set_password(new_password)
-    #
-    #     updated_instance = super().update(instance, validated_data)
-    #     return updated_instance
+    #     password = validated_data['password']
+    #     if password:
+    #         instance.set_password(password)
+    #     return super().update(instance, validated_data)
