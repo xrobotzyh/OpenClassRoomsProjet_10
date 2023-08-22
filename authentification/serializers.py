@@ -53,8 +53,7 @@ class UserSerializer(serializers.ModelSerializer):
                   'username',
                   'first_name',
                   'last_name',
-                  'email',]
-                  # 'password']
+                  'email', ]
         read_only_fields = ['id']
 
     # def update(self, instance, validated_data):

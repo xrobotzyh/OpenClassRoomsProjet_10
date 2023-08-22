@@ -1,3 +1,4 @@
+import uuid as uuid
 from django.db import models
 
 from OpenClassRoomsProjet_10 import settings
@@ -16,17 +17,18 @@ class Project(models.Model):
     )
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=2048)
-    author = models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_projects')
+    author = models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                  related_name='created_projects')
     project_type = models.CharField(max_length=10, choices=type_choices)
     created_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.title}'
 
 
 class Contributor(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="author")
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE, related_name="contributors")
-
-    def __str__(self):
-        return f'Contributors'
 
 
 class Issue(models.Model):
@@ -70,10 +72,12 @@ class Issue(models.Model):
     status_progress = models.CharField(max_length=20, choices=progress_choice, default=TO_DO)
     created_time = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.title}'
+
 
 class Comment(models.Model):
     issue = models.ForeignKey(to=Issue, on_delete=models.CASCADE, related_name='comment')
     description = models.CharField(max_length=2048)
-    uuid = models.UUIDField(unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
