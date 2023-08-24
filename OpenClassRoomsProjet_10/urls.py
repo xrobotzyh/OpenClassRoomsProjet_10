@@ -20,15 +20,13 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 import project
 from authentification.urls import router
-from project.urls import router_project, router_issue, router_comment
+from project.urls import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/user/', include(router.urls)),
-    path('api/', include(router_project.urls)),
-    path('api/', include(router_issue.urls)),
-    path('api/', include(router_comment.urls))
+    path('api/', include(router.urls)),
 
 ]

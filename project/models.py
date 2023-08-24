@@ -78,6 +78,7 @@ class Issue(models.Model):
 
 class Comment(models.Model):
     issue = models.ForeignKey(to=Issue, on_delete=models.CASCADE, related_name='comment')
+    project = models.ForeignKey(to=Project, on_delete=models.CASCADE, related_name='project')
     description = models.CharField(max_length=2048)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
