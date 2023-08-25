@@ -82,3 +82,6 @@ class Comment(models.Model):
     description = models.CharField(max_length=2048)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def get_issue_link(self):
+        return f'projects/{self.project_id}/issues/{self.issue.id}/'
