@@ -16,17 +16,18 @@ class HasProjectPermissions(permissions.BasePermission):
 class HasIssuePermissions(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        if view.action in ['retrieve', 'list', 'create']:
-            return obj.author == request.user or obj.project.contributors.filter(user=request.user,
-                                                                                 project_id=view.kwargs["pk"]).exists()
-        elif view.action in ['update', 'partial_update', 'destroy']:
-            return obj.author == request.user
-
-
-class HasCommentPermissions(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if view.action in ['retrieve', 'list', 'create']:
+        if view.action in ('retrieve', 'list', 'create'):
             return obj.author == request.user or obj.project.contributors.filter(user_id=request.user.id,
                                                                                  project_id=view.kwargs["pk"]).exists()
-        elif view.action in ['update', 'partial_update', 'destroy']:
+        elif view.action in ('update', 'partial_update', 'destroy'):
             return obj.author == request.user
+
+
+class HasCommentPermissions(permissions.BasePermission, HasIssuePermissions):
+    # def has_object_permission(self, request, view, obj):
+    #     if view.action in ('retrieve', 'list', 'create'):
+    #         return obj.author == request.user or obj.project.contributors.filter(user_id=request.user.id,
+    #                                                                              project_id=view.kwargs["pk"]).exists()
+    #     elif view.action in ('update', 'partial_update', 'destroy'):
+    #         return obj.author == request.user
+    pass
