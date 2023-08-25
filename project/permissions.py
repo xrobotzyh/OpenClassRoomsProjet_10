@@ -24,10 +24,10 @@ class HasIssuePermissions(permissions.BasePermission):
 
 
 class HasCommentPermissions(permissions.BasePermission, HasIssuePermissions):
-    # def has_object_permission(self, request, view, obj):
-    #     if view.action in ('retrieve', 'list', 'create'):
-    #         return obj.author == request.user or obj.project.contributors.filter(user_id=request.user.id,
-    #                                                                              project_id=view.kwargs["pk"]).exists()
-    #     elif view.action in ('update', 'partial_update', 'destroy'):
-    #         return obj.author == request.user
-    pass
+    def has_object_permission(self, request, view, obj):
+        if view.action in ('retrieve', 'list', 'create'):
+            return obj.author == request.user or obj.project.contributors.filter(user_id=request.user.id,
+                                                                                 project_id=view.kwargs["pk"]).exists()
+        elif view.action in ('update', 'partial_update', 'destroy'):
+            return obj.author == request.user
+
