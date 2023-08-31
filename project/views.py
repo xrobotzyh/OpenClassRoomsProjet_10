@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -11,8 +12,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = (IsAuthenticated, HasProjectPermissions)
-    # permission_classes = (IsAuthenticated)
+    pagination_class = PageNumberPagination
 
+    # save the connected user as author of the project he has just created automatic
     def perform_create(self, serializer):
         user_instance = self.request.user
         project_instance = serializer.save(author=user_instance)
@@ -22,18 +24,17 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class IssueViewSet(viewsets.ModelViewSet):
     serializer_class = IssueSerializer
     permission_classes = (IsAuthenticated, HasIssuePermissions)
-
-    # permission_classes = (IsAuthenticated)
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         project_id = self.kwargs.get('project_id')
         return Issue.objects.filter(project_id=project_id)
 
+    #
     def perform_create(self, serializer):
         project_id = self.kwargs.get('project_id')
         project_instance = Project.objects.get(pk=project_id)
-        print(project_instance.contributors.filter(user_id=self.request.user.id).exists())
-
+        # to check if the issuer creator is the contributor of the project, is not, no permission to do that
         if not project_instance.contributors.filter(user_id=self.request.user.id).exists():
             return Response({'detail': 'You are not a contributor of this project.'}, status=status.HTTP_403_FORBIDDEN)
 
@@ -44,8 +45,7 @@ class IssueViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticated, HasCommentPermissions)
-
-    # permission_classes = (IsAuthenticated)
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         issue_id = self.kwargs.get('issue_id')

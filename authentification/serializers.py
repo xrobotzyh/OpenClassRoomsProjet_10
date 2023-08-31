@@ -53,11 +53,6 @@ class UserSerializer(serializers.ModelSerializer):
                   'username',
                   'first_name',
                   'last_name',
-                  'email', ]
+                  'can_be_contacted',
+                  'email']
         read_only_fields = ['id']
-
-    # def update(self, instance, validated_data):
-    #     password = validated_data['password']
-    #     if password:
-    #         instance.set_password(password)
-    #     return super().update(instance, validated_data)

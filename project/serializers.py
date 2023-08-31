@@ -19,22 +19,35 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = "__all__"
 
+    # re write the create method, if user enter several contributors at a time
+    def create(self, validated_data):
+        contributors_data = validated_data.pop('contributors', None)
+        project = Project.objects.create(**validated_data)
+
+        if contributors_data is not None:
+            for contributor_data in contributors_data:
+                user_id = contributor_data['user']
+                try:
+                    user = UserProfile.objects.get(username=user_id)
+                    Contributor.objects.create(project=project, user=user)
+                except UserProfile.DoesNotExist:
+                    pass
+
+        return project
+
+    # re write the update method, if user enter several contributors at a time
     def update(self, instance, validated_data):
         contributors_data = validated_data.pop('contributors', None)
 
         if contributors_data is not None:
             instance.contributors.all().delete()
 
-            added_users = set()
-
             for contributor_data in contributors_data:
                 user_id = contributor_data['user']
-                #  fixme contributor can be added even it has already done
                 if user_id not in set():
                     try:
                         user = UserProfile.objects.get(username=user_id)
                         Contributor.objects.create(project=instance, user=user)
-                        added_users.add(user_id)
                     except UserProfile.DoesNotExist:
                         pass
 
@@ -47,6 +60,7 @@ class IssueSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'priority', 'nature_issue', 'assign_to', 'status_progress', 'author']
         read_only_fields = ['id', 'author']
 
+    # assign to must be a action to a contributor
     def validate_assign_to(self, value):
         if value is not None and value.id is not None:
             project_id = self.context["view"].kwargs["project_id"]
@@ -69,5 +83,6 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'description', 'project_id', 'issue_id', 'uuid', 'author_id', 'issue_link']
         read_only_fields = ['id', 'project_id', 'issue_id', 'uuid', 'author_id']
 
+    # give the detail page url
     def get_issue_link(self, instance):
         return f'api/projects/{instance.project_id}/issues/{instance.issue.id}/'

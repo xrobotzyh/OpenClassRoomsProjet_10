@@ -18,15 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
-import project
-from authentification.urls import router
+from authentification.urls import router_user
 from project.urls import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/user/', include(router.urls)),
+    path('api/users/', include(router_user.urls)),
     path('api/', include(router.urls)),
 
 ]

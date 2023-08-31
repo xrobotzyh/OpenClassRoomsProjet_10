@@ -30,6 +30,11 @@ class Contributor(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="author")
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE, related_name="contributors")
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "project"], name='seule contributeur')
+        ]
+
 
 class Issue(models.Model):
     LOW = "LOW"
