@@ -55,7 +55,7 @@ Use the following information to test
 ```bash
 | User name             | password      |
 |-----------------------|---------------|
-| helpful               | 123456789/     | 
+| helpful               | 123456789/    | 
 
 ```
 
