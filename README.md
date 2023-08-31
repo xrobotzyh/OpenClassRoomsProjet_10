@@ -1,11 +1,10 @@
 # OpenClassrooms Projet P10
 
 ## Objectif
-The young startup LITReview aims to market a product that allows a community of users to access or request book reviews on demand. The project's goal is to develop this web application using Django.
+SoftDesk, a collaborative software publishing company, has embarked on a new venture by introducing an application designed to efficiently address and track technical issues. This innovative solution, named SoftDesk Support, is tailored for B2B enterprises (Business to Business).
 
 ## Local Configuration
 ## Installation
-SoftDesk, a collaborative software publishing company, has embarked on a new venture by introducing an application designed to efficiently address and track technical issues. This innovative solution, named SoftDesk Support, is tailored for B2B enterprises (Business to Business).
 ### Getting the project on your local machine.
 1. Clone the repository to your local machine.
 ```bash
