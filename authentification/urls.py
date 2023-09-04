@@ -5,4 +5,4 @@ from . import views
 #register router
 router_user = DefaultRouter()
 router_user.register(r'inscription', viewset=views.UserInscriptionViewSet, basename='userinscription')
-router_user.register(r'lists', viewset=views.UserManagementViewSet, basename='lists')
+router_user.register(r'', viewset=views.UserManagementViewSet, basename='lists')
